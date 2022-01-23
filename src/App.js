@@ -11,6 +11,11 @@ const shaxaReducer = (state, action) => {
       id: state.length + 1,
       name: action.payload.title
     }];
+
+    //search
+    case 'izlash': return state.filter(value => value.name.toLowerCase().includes(action.payload.toLowerCase()));
+
+    // Agar inputdagi yozganlarimizni uchirganimizda yana table uz xoliga qaytishini xoxlasak data ni mock data qilib bowqa fayldan olib kelib map qilishimiz kerak.Xar safar render bolganda mock datamiz xam yangilanib qaytib keladi.Mock ni filter qilib junatvoriladi va return uzi borib state ga qushiladi!
   }
 }
 
@@ -30,8 +35,25 @@ const App = () => {
 
   return (
     <div>
-      <input onChange={(e)=> setName(e.target.value)} type="text" placeholder='enter your name' />
-      <button onClick={()=> dispatch({type: 'save', payload:{title: name}})}>save</button>
+      <div style={{ marginBottom: '70px' }}>
+        <input
+          onChange={(e) =>
+            dispatch({ type: 'izlash', payload: e.target.value })
+          }
+          type='text'
+          placeholder='search'
+        />
+      </div>
+      <input
+        onChange={(e) => setName(e.target.value)}
+        type='text'
+        placeholder='enter your name'
+      />
+      <button
+        onClick={() => dispatch({ type: 'save', payload: { title: name } })}
+      >
+        save
+      </button>
       <table border='1px' width='600px' style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>
